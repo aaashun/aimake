@@ -3,15 +3,14 @@ aimake is a mini build tool based on gnu make.
 it's green, you don't need to install it
 
 1. requirements:
-    (1) python, aimake script was written in python
-    (2) gnu make, aimake was based on gnu make
-    (3) [optional] ios sdk, it's required if you need to build your project for ios 
-    (4) [optional] android ndk, it's required if you need to build your project for android
+    (1) gnu make, aimake was based on gnu make
+    (2) [optional] ios sdk, it's required if you need to build your project for ios 
+    (3) [optional] android ndk, it's required if you need to build your project for android
 
 2. how to use aimake?
     (1) copy 'aimakefile' to your project folder
     (2) modify variables in aimakfile for your compilation requirement
-    (4) run 'aimake -t linux'(aimake is an soft link pointing to aimake.py)
+    (4) run 'aimake' (aimake is a soft link pointing to aimake.sh)
 
 3. how to support more target platforms
     the sub-folder(ios, android) means supported target platform,  and the name of sub-folder is some as target platform's name.

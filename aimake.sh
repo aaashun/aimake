@@ -3,7 +3,7 @@
 supported_platforms=`ls -l | awk '/^d/{printf("%s%s", sp, $NF); sp=" ";}'`
 host_platform=`uname | awk '{print tolower($0)}'`
 target_platform=$host_platform
-aimakehome=`readlink -f $0 | sed 's/\/[^\/]*$//'`
+aimake_home=`readlink -f $0 | sed 's/\/[^\/]*$//'`
 aimakefile="aimakefile"
 
 while getopts "t:f:h" opt; do
@@ -18,8 +18,8 @@ while getopts "t:f:h" opt; do
     esac
 done
 
-if ! [[ -d $aimakehome/$target_platform ]]; then echo "unsupported target platform '"$target_platform"'"; exit 1; fi
+if ! [[ -d $aimake_home/$target_platform ]]; then echo "unsupported target platform '"$target_platform"'"; exit 1; fi
 if ! [[ -f $aimakefile ]]; then echo "'$aimakefile' does not exist"; exit 1; fi
 
 shift $((OPTIND-1))
-make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TARGET_PLATFORM=$target_platform AIMAKEFILE=$aimakefile AIMAKEHOME=$aimakehome $@
+make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile $@
