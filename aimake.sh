@@ -1,10 +1,15 @@
 #! /bin/bash
 
-supported_platforms=`ls -l | awk '/^d/{printf("%s%s", sp, $NF); sp=" ";}'`
 host_platform=`uname | awk '{print tolower($0)}'`
-target_platform=$host_platform
-aimake_home=`readlink -f $0 | sed 's/\/[^\/]*$//'`
+
+if [[ $host_platform == "darwin" ]];
+then aimake_home=`readlink $0    | sed 's/\/[^\/]*$//'`
+else aimake_home=`readlink -f $0 | sed 's/\/[^\/]*$//'`; fi; 
+
+supported_platforms=`ls -l $aimake_home | awk '/^d/{printf("%s%s", sp, $NF); sp=" ";}'`
+
 aimakefile="aimakefile"
+target_platform=$host_platform
 
 while getopts "t:f:h" opt; do
     case $opt in
