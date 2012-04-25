@@ -70,6 +70,6 @@ $(PACKAGE): $(ALL)
 	rm -rf $(PACKAGE_TEMP_DIR);\
 	rm -rf $@;
 	mkdir -p $(PACKAGE_TEMP_DIR);
-	cp -rf $(ALL) $(LOCAL_PACKAGE_RESOURCES) $(PACKAGE_TEMP_DIR);
+	cp -rf -L $(ALL) $(LOCAL_PACKAGE_RESOURCES) $(PACKAGE_TEMP_DIR);
 	tar --exclude .svn -h -czf $@ $(PACKAGE_TEMP_DIR);
 	rm -rf $(PACKAGE_TEMP_DIR);
