@@ -1,4 +1,4 @@
-aimake is a mini build tool based on gnu make.
+aimake is a mini building tool based on gnu make. it's easy to cross compile shared library or static library for ios and android. 
 
 it's green, you don't need to install it
 
