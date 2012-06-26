@@ -30,7 +30,7 @@ SHARED_LIBRARY_IOS_DEV_ARMV6 = lib$(LOCAL_MODULE)_ios_dev_armv6.dylib
 SHARED_LIBRARY_IOS_DEV_ARMV7 = lib$(LOCAL_MODULE)_ios_dev_armv7.dylib
 SHARED_LIBRARY_IOS_SIM_I386  = lib$(LOCAL_MODULE)_ios_sim_i386.dylib
 
-PACKAGE  = $(LOCAL_MODULE)_$(TARGET_PLATFORM)_$(VERSION).tar.gz
+PACKAGE  = $(LOCAL_MODULE)_$(TARGET_PLATFORM)_$(VERSION)_$(shell date +20%2y%2m%2d%2H%2M%2S).tar.gz
 
 #
 # explict rules

@@ -3,6 +3,7 @@
 # objects
 LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp")
 
+LOCAL_SRC_FILES += $(ANDROID_NDK_HOME)/sources/android/cpufeatures/cpu-features.c # support cpu-features for default
 LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp")
 LOCAL_SRC_FILES := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
 
@@ -15,7 +16,7 @@ OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(LOCAL_SRC_FILES)))
 EXECUTABLE = $(LOCAL_MODULE)
 SHARED_LIBRARY  = lib$(LOCAL_MODULE).so
 STATIC_LIBRARY  = lib$(LOCAL_MODULE).a
-PACKAGE  = $(LOCAL_MODULE)_$(TARGET_PLATFORM)_$(VERSION).tar.gz
+PACKAGE  = $(LOCAL_MODULE)_$(TARGET_PLATFORM)_$(VERSION)_$(shell date +20%2y%2m%2d%2H%2M%2S).tar.gz
 
 
 #
