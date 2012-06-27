@@ -3,7 +3,7 @@
 # objects
 LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp")
 
-LOCAL_SRC_FILES += $(ANDROID_NDK_HOME)/sources/android/cpufeatures/cpu-features.c # support cpu-features for default
+#LOCAL_SRC_FILES += $(ANDROID_NDK_HOME)/sources/android/cpufeatures/cpu-features.c # support cpu-features for default
 LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp")
 LOCAL_SRC_FILES := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
 
