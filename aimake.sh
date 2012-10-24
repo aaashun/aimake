@@ -33,7 +33,7 @@ shift $((OPTIND-1))
 if [[ -z $multidir ]]; then
     make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile $@
 else
-    echo $@ | awk -v aimake=$0 '/clean/{system(aimake" clean")}'
+    if [[ -n `echo $@ | grep clean` ]]; then aimake -t $target_platform -f $aimakefile clean; fi
     find $multidir -type f | awk '/\.c$/{gsub(/^\.\//,""); printf $0; gsub(/\.[^.]*$/,""); print " "$0}' > .aimakelist
     while read line; do
         src=${line%% *}; module=${line##* }; obj=${line##* }.o
@@ -41,7 +41,8 @@ else
         cmd="rm -rf $module $obj"; echo $cmd; $cmd; if [[ $@ == "clean" ]]; then continue; fi
         $0 -t $target_platform -f .aimakefile; status=$?;
         if [[ $status -ne 0 ]]; then break; fi
+        break;
     done < .aimakelist
 
-    rm -rf .aimakefile .aimakelist
+    #rm -rf .aimakefile .aimakelist
 fi
