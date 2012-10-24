@@ -41,8 +41,7 @@ else
         cmd="rm -rf $module $obj"; echo $cmd; $cmd; if [[ $@ == "clean" ]]; then continue; fi
         $0 -t $target_platform -f .aimakefile; status=$?;
         if [[ $status -ne 0 ]]; then break; fi
-        break;
     done < .aimakelist
 
-    #rm -rf .aimakefile .aimakelist
+    rm -rf .aimakefile .aimakelist
 fi
