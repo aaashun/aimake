@@ -14,20 +14,18 @@ DEVROOT_IOS_SIM = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSim
 SDKROOT_IOS_DEV = $(DEVROOT_IOS_DEV)/SDKs/iPhoneOS6.0.sdk
 SDKROOT_IOS_SIM = $(DEVROOT_IOS_SIM)/SDKs/iPhoneSimulator6.0.sdk
 
-
-
 #
 # optimize configuration
 #
 CFLAGS_IOS_DEV_ARMV7_OPTIMIZE = -mcpu=cortex-a8 -mfpu=neon -ftree-vectorize -mfloat-abi=softfp -ffast-math
+CFLAGS_IOS_DEV_ARMV7S_OPTIMIZE = $(CFLAGS_IOS_DEV_ARMV7_OPTIMIZE)
 #-fsingle-precision-constant
-
 
 #
 # build variables
 #
 
-# device armv7
+# device armv7, armv7s
 CC_IOS_DEV      = $(DEVROOT_IOS_DEV)/usr/bin/llvm-gcc
 LD_IOS_DEV      = $(DEVROOT_IOS_DEV)/usr/bin/ld
 CPP_IOS_DEV     = $(DEVROOT_IOS_DEV)/usr/bin/cpp
@@ -43,8 +41,10 @@ CFLAGS_IOS_DEV  = -no-cpp-precomp -isysroot $(SDKROOT_IOS_DEV) -I$(SDKROOT_IOS_D
 LDFLAGS_IOS_DEV = -L$(SDKROOT_IOS_DEV)/usr/lib -lstdc++
 
 CFLAGS_IOS_DEV_ARMV7 = -arch armv7 $(CFLAGS_IOS_DEV_ARMV7_OPTIMIZE) $(CFLAGS_IOS_DEV)
+CFLAGS_IOS_DEV_ARMV7S = -arch armv7s $(CFLAGS_IOS_DEV_ARMV7S_OPTIMIZE) $(CFLAGS_IOS_DEV)
 
 CXXFLAGS_IOS_DEV_ARMV7 = $(CFLAGS_IOS_DEV_ARMV7)
+CXXFLAGS_IOS_DEV_ARMV7S = $(CFLAGS_IOS_DEV_ARMV7S)
 
 # simulator i386
 CC_IOS_SIM      = $(DEVROOT_IOS_SIM)/usr/bin/gcc
