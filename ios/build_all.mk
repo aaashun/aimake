@@ -36,7 +36,7 @@ SHARED_LIBRARY_ARMV7  = lib$(LOCAL_MODULE).armv7.dylib
 SHARED_LIBRARY_ARMV7S = lib$(LOCAL_MODULE).armv7s.dylib
 SHARED_LIBRARY_I386   = lib$(LOCAL_MODULE).i386.dylib
 
-PACKAGE  = $(LOCAL_MODULE)_$(TARGET_PLATFORM)_$(VERSION)_$(shell date +20%y%m%d%H%M)00.tar.gz
+PACKAGE  = $(LOCAL_MODULE)-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).tar.gz
 
 #
 # explict rules

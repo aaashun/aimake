@@ -2,14 +2,20 @@
 
 host_platform=`uname | awk '{print tolower($0)}'`
 
-if [[ $host_platform == "darwin" ]];
-then aimake_home=`readlink $0    | sed 's/\/[^\/]*$//'`
-else aimake_home=`readlink -f $0 | sed 's/\/[^\/]*$//'`; fi; 
+if [[ $host_platform == "darwin" ]]; then
+    aimake_home=`readlink $0 | sed 's/\/[^\/]*$//'`
+    if [[ -z $aimake_home ]]; then
+        aimake_home=`echo $0 | sed 's/\/[^\/]*$//'`
+    fi
+else
+    aimake_home=`readlink -f $0 | sed 's/\/[^\/]*$//'`;
+fi; 
 
 supported_platforms=`ls -l $aimake_home | awk '/^d/{printf("%s%s", sp, $NF); sp=" ";}'`
 
 aimakefile="aimakefile"
 target_platform=$host_platform
+timestamp=`date +20%y%m%d%H%M%S`
 
 while getopts "t:f:m:h" opt; do
     case $opt in
@@ -31,7 +37,7 @@ if ! [[ -f $aimakefile ]]; then echo "'$aimakefile' does not exist"; exit 1; fi
 shift $((OPTIND-1))
 
 if [[ -z $multidir ]]; then
-    make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile $@
+    make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TIMESTAMP=$timestamp TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile $@
 else
     if [[ -n `echo $@ | grep clean` ]]; then aimake -t $target_platform -f $aimakefile clean; fi
     find $multidir -type f | awk '/\.c$/{gsub(/^\.\//,""); printf $0; gsub(/\.[^.]*$/,""); print " "$0}' > .aimakelist
