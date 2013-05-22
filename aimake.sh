@@ -1,6 +1,6 @@
 #! /bin/bash
 
-host_platform=`uname | awk '{print tolower($0)}'`
+host_platform=`uname | awk -F _ '{print tolower($1)}'`
 
 if [[ $host_platform == "darwin" ]]; then
     aimake_home=`readlink $0 | sed 's/\/[^\/]*$//'`
