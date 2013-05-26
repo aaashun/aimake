@@ -1,17 +1,15 @@
-
 #
 # objects
 #
 ifneq ($(LOCAL_SRC_DIRS),)
-    LOCAL_SRC_FILES0 += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp")
+    LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp")
 endif
 ifneq ($(LOCAL_SRC_DIRS_EXCLUDE),)
-    LOCAL_SRC_FILES0_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp")
+    LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp")
 endif
 
-LOCAL_SRC_FILES0 := $(filter-out $(LOCAL_SRC_FILES0_EXCLUDE), $(LOCAL_SRC_FILES0))
 LOCAL_SRC_FILES  := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
-LOCAL_SRC_FILES  += $(LOCAL_SRC_FILES0)
+
 
 OBJECTS_ARMV7  = $(subst .c,.armv7.o,$(subst .cpp,.armv7.o,$(LOCAL_SRC_FILES)))
 OBJECTS_ARMV7S = $(subst .c,.armv7s.o,$(subst .cpp,.armv7s.o,$(LOCAL_SRC_FILES)))
