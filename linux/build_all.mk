@@ -20,7 +20,7 @@ OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(LOCAL_SRC_FILES)))
 EXECUTABLE = $(LOCAL_MODULE)
 SHARED_LIBRARY  = lib$(LOCAL_MODULE).so
 STATIC_LIBRARY  = lib$(LOCAL_MODULE).a
-PACKAGE  = $(shell basename .t/$(LOCAL_MODULE))-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).tar.gz
+PACKAGE  = $(shell basename .t/$(LOCAL_MODULE))-$(TARGET_PLATFORM)-$(shell uname -m)-$(VERSION)-$(TIMESTAMP).tar.gz
 
 #
 # explict rules
