@@ -2,16 +2,15 @@
 # objects
 #
 ifneq ($(LOCAL_SRC_DIRS),)
-    LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp")
+    LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp" -or -name "*.cc")
 endif
 ifneq ($(LOCAL_SRC_DIRS_EXCLUDE),)
-    LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp")
+    LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp" -or -name "*.cc")
 endif
 
 LOCAL_SRC_FILES  := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
 
-OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(LOCAL_SRC_FILES)))
-
+OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(subst .cc,.o,$(LOCAL_SRC_FILES))))
 
 #
 # building targets
@@ -27,6 +26,9 @@ PACKAGE  = $(LOCAL_MODULE)-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).tar.gz
 #
 %.o : %.c
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -c $< -o $@
+
+%.o : %.cc
+	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
 
 %.o : %.cpp
 	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@

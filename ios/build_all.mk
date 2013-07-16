@@ -2,18 +2,18 @@
 # objects
 #
 ifneq ($(LOCAL_SRC_DIRS),)
-    LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp" -or -name "*.m")
+    LOCAL_SRC_FILES += $(shell find $(LOCAL_SRC_DIRS) -name "*.c" -or -name "*.cpp" -or -name "*.cc" -or -name "*.m")
 endif
 ifneq ($(LOCAL_SRC_DIRS_EXCLUDE),)
-    LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp" -r -name "*.m")
+    LOCAL_SRC_FILES_EXCLUDE += $(shell find $(LOCAL_SRC_DIRS_EXCLUDE) -name "*.c" -or -name "*.cpp" -or -name "*.cc" -r -name "*.m")
 endif
 
 LOCAL_SRC_FILES  := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
 
 
-OBJECTS_ARMV7  = $(subst .c,.armv7.o,  $(subst .cpp,.armv7.o,  $(subst .m,.armv7.o,  $(LOCAL_SRC_FILES))))
-OBJECTS_ARMV7S = $(subst .c,.armv7s.o, $(subst .cpp,.armv7s.o, $(subst .m,.armv7s.o, $(LOCAL_SRC_FILES))))
-OBJECTS_I386   = $(subst .c,.i386.o,   $(subst .cpp,.i386.o,   $(subst .m,.i386.o,   $(LOCAL_SRC_FILES))))
+OBJECTS_ARMV7  = $(subst .c,.armv7.o,  $(subst .cpp,.armv7.o,  $(subst .cc,.armv7.o,  $(subst .m,.armv7.o,  $(LOCAL_SRC_FILES)))))
+OBJECTS_ARMV7S = $(subst .c,.armv7s.o, $(subst .cpp,.armv7s.o, $(subst .cc,.armv7s.o, $(subst .m,.armv7s.o, $(LOCAL_SRC_FILES)))))
+OBJECTS_I386   = $(subst .c,.i386.o,   $(subst .cpp,.i386.o,   $(subst .cc,.i386.o,   $(subst .m,.i386.o,   $(LOCAL_SRC_FILES)))))
 
 
 #
@@ -47,6 +47,15 @@ PACKAGE  = $(LOCAL_MODULE)-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).tar.gz
 
 %.i386.o  : %.c
 	$(CC_SIM) $(LOCAL_CFLAGS) $(CFLAGS_I386)  -c $< -o $@
+
+%.armv7.o : %.cc
+	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7) -c $< -o $@
+
+%.armv7s.o : %.cc
+	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7S) -c $< -o $@
+
+%.i386.o  : %.cc
+	$(CXX_SIM) $(LOCAL_CXXFLAGS) $(CXXFLAGS_I386)  -c $< -o $@
 
 %.armv7.o : %.cpp
 	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7) -c $< -o $@
