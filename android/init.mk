@@ -3,7 +3,7 @@
 #
 ANDROID_NDK_HOME = /usr/local/android-ndk
 TOOLCHAINS = $(ANDROID_NDK_HOME)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86
-PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-3/arch-arm
+PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-14/arch-arm
 CXX_STL = $(ANDROID_NDK_HOME)/sources/cxx-stl/gnu-libstdc++
 
 CC  = $(TOOLCHAINS)/bin/arm-linux-androideabi-gcc
@@ -29,8 +29,9 @@ STRIP = $(TOOLCHAINS)/bin/arm-linux-androideabi-strip
 CFLAGS   := -march=armv6 -mfloat-abi=softfp -mfpu=vfp -marm -fsigned-char -fpic -ffunction-sections -funwind-tables -fstack-protector -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -Wa,--noexecstack -I$(PLATFORM)/usr/include
 #-I$(ANDROID_NDK_HOME)/sources/android/cpufeatures
 
-CXXFLAGS := $(CFLAGS) -fexceptions -frtti
+CXXFLAGS := $(CFLAGS) -I $(CXX_STL)/include -I $(CXX_STL)/libs/armeabi/include -I $(CXX_STL)/armeabi-fexceptions -frtti
 
-LDFLAGS := -Wl,--fix-cortex-a8 -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc $(CXX_STL)/libs/armeabi/libsupc++.a
+LDFLAGS := -Wl,--fix-cortex-a8 -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc $(CXX_STL)/libs/armeabi/libgnustl_static.a
+#libsupc++.a
 
 #LDFLAGS := -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc -lsupc++ $(CXX_STL)/libs/armeabi/libstdc++.a $(TOOLCHAINS)/lib/gcc/arm-linux-androideabi/4.4.3/libgcc.a
