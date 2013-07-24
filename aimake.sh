@@ -37,7 +37,7 @@ if ! [[ -f $aimakefile ]]; then echo "'$aimakefile' does not exist"; exit 1; fi
 shift $((OPTIND-1))
 
 if [[ -z $multidir ]]; then
-    make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TIMESTAMP=$timestamp TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile $@
+    make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TIMESTAMP=$timestamp TARGET_PLATFORM=$target_platform AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile "$@"
 else
     if [[ -n `echo $@ | grep clean` ]]; then aimake -t $target_platform -f $aimakefile clean; fi
     find $multidir -type f | awk '/\.c$/{gsub(/^\.\//,""); printf $0; gsub(/\.[^.]*$/,""); print " "$0}' > .aimakelist
