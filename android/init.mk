@@ -3,7 +3,7 @@
 #
 ANDROID_NDK_HOME = /usr/local/android-ndk
 TOOLCHAINS = $(ANDROID_NDK_HOME)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86
-PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-14/arch-arm
+PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-8/arch-arm
 CXX_STL = $(ANDROID_NDK_HOME)/sources/cxx-stl/gnu-libstdc++
 
 CC  = $(TOOLCHAINS)/bin/arm-linux-androideabi-gcc
@@ -18,20 +18,30 @@ STRIP = $(TOOLCHAINS)/bin/arm-linux-androideabi-strip
 # optimize and debug flags should be set in 'aimakefile'
 # -Os -O3 -DNDEBUG -g
 # -fpic
+# -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ 
+# -ffunction-sections -funwind-tables -fstack-protector -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -Wa,--noexecstack 
+# -I$(ANDROID_NDK_HOME)/sources/android/cpufeatures
 
-# use armv7, neon
-#CFLAGS   := -march=armv7-a -mfloat-abi=softfp -mfpu=neon -fsigned-char -fpic -ffunction-sections -funwind-tables -fstack-protector -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -DANDROID -Wa,--noexecstack -I$(PLATFORM)/usr/include 
+ARMEABI=armv6-vfp
 
-# use armv5, soft-float
-#CFLAGS   :=  -march=armv5te -msoft-float -mthumb -fsigned-char -fpic -ffunction-sections -funwind-tables -fstack-protector -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -DANDROID -Wa,--noexecstack -I$(PLATFORM)/usr/include 
+ifeq ($(ARMEABI), armv5te)
+    CFLAGS :=  -march=armv5te -marm -mfloat-abi=soft
+else ifeq ($(ARMEABI), armv6-vfp)
+    CFLAGS := -march=armv6 -marm -mfloat-abi=softfp -mfpu=vfp
+else ifeq ($(ARMEABI), armv7a-vfpv3)
+    CFLAGS := -march=armv7-a -marm -mfloat-abi=softfp -mfpu=vfpv3
+else ifeq ($(ARMEABI), armv7a-neon)
+    CFLAGS := -march=armv7-a -marm -mfloat-abi=softfp -mfpu=neon -ftree-vectorize
+else
+    $(error only support ARMEABI: armv5te, armv6-vfp, armv7a-vfpv3, armv7a-neon, the default is armv6-vfp)
+endif
 
-# use armv6, vfp 
-CFLAGS   := -march=armv6 -mfloat-abi=softfp -mfpu=vfp -marm -fsigned-char -fpic -ffunction-sections -funwind-tables -fstack-protector -D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__ -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -Wa,--noexecstack -I$(PLATFORM)/usr/include
-#-I$(ANDROID_NDK_HOME)/sources/android/cpufeatures
+CFLAGS += -fsigned-char -I$(PLATFORM)/usr/include 
 
 CXXFLAGS := $(CFLAGS) -I $(CXX_STL)/include -I $(CXX_STL)/libs/armeabi/include -I $(CXX_STL)/armeabi-fexceptions -frtti
 
-LDFLAGS := -Wl,--fix-cortex-a8 -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc $(CXX_STL)/libs/armeabi/libgnustl_static.a
+#-Wl,--fix-cortex-a8 -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections 
+LDFLAGS := --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc $(CXX_STL)/libs/armeabi/libgnustl_static.a
 #libsupc++.a
 
 #LDFLAGS := -Wl,-z,nocopyreloc -Wl,--no-undefined -Wl,-z,noexecstack -Wl,--gc-sections --sysroot=$(PLATFORM) -L$(PLATFORM)/usr/lib -llog -lc -lsupc++ $(CXX_STL)/libs/armeabi/libstdc++.a $(TOOLCHAINS)/lib/gcc/arm-linux-androideabi/4.4.3/libgcc.a
