@@ -22,18 +22,18 @@ STRIP = $(TOOLCHAINS)/bin/arm-linux-androideabi-strip
 # -ffunction-sections -funwind-tables -fstack-protector -Wno-psabi -fomit-frame-pointer -fno-strict-aliasing -finline-limit=300 -Wa,--noexecstack 
 # -I$(ANDROID_NDK_HOME)/sources/android/cpufeatures
 
-ARMEABI=armv6-vfp
+ANDABI=armv6-vfp
 
-ifeq ($(ARMEABI), armv5te)
+ifeq ($(ANDABI), armv5te)
     CFLAGS :=  -march=armv5te -marm -mfloat-abi=soft
-else ifeq ($(ARMEABI), armv6-vfp)
+else ifeq ($(ANDABI), armv6-vfp)
     CFLAGS := -march=armv6 -marm -mfloat-abi=softfp -mfpu=vfp
-else ifeq ($(ARMEABI), armv7a-vfpv3)
+else ifeq ($(ANDABI), armv7a-vfpv3)
     CFLAGS := -march=armv7-a -marm -mfloat-abi=softfp -mfpu=vfpv3
-else ifeq ($(ARMEABI), armv7a-neon)
+else ifeq ($(ANDABI), armv7a-neon)
     CFLAGS := -march=armv7-a -marm -mfloat-abi=softfp -mfpu=neon -ftree-vectorize
 else
-    $(error only support ARMEABI: armv5te, armv6-vfp, armv7a-vfpv3, armv7a-neon, the default is armv6-vfp)
+    $(error only support ANDABI: armv5te, armv6-vfp, armv7a-vfpv3, armv7a-neon, the default is armv6-vfp)
 endif
 
 CFLAGS += -fsigned-char -I$(PLATFORM)/usr/include 
