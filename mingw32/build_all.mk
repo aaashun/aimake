@@ -57,7 +57,7 @@ $(SHARED_LIBRARY) : $(OBJECTS)
 	$(CXX) $^ $(LDFLAGS) $(LOCAL_LDFLAGS) -Wl,--kill-at -Wl,--output-def,$(LOCAL_MODULE).def -o $(LOCAL_MODULE).dll
 	$(STRIP) --strip-unneeded $@
 	sed -i 's/[^ \t]* = //g' $(LOCAL_MODULE).def
-	lib /machine:i386 /def:$(LOCAL_MODULE).def /name:$(LOCAL_DLL_NAME_IN_LIB) /out:$(LOCAL_MODULE).lib
+	lib /machine:i386 /def:$(LOCAL_MODULE).def /name:$(LOCAL_DLLNAME) /out:$(LOCAL_MODULE).lib
 
 #
 # goal: clean
