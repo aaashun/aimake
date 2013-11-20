@@ -1,8 +1,8 @@
 #! /bin/bash
 
-version="0.1"
+version="0.2"
 
-host_platform=`uname | awk -F _ '{print tolower($1)}'`
+host_platform=`uname | awk -F[_0-9] '{print tolower($1)}'`
 
 if [[ $host_platform == "darwin" ]]; then
     aimake_home=`readlink $0 | sed 's/\/[^\/]*$//'`
@@ -18,14 +18,17 @@ supported_platforms=`ls -l $aimake_home | awk '/^d/{printf("%s%s", sp, $NF); sp=
 aimakefile="aimakefile"
 target_platform=$host_platform
 timestamp=`date +20%y%m%d%H%M%S`
+jobs=1
 
-while getopts "t:f:m:h" opt; do
+while getopts "j:t:f:h" opt; do
     case $opt in
-        t) target_platform=$OPTARG;;
+        j) jobs=$OPTARG;;
         f) aimakefile=$OPTARG;;
+        t) target_platform=$OPTARG;;
         h|?) echo "usage: aimake [options] [target]"; echo ""
              echo "options:"
              echo "    -h show this help message and exit"
+             echo "    -j number of jobs to run simultaneously"
              echo "    -t target platform, support '$supported_platforms', the default is '$host_platform'"
              echo "    -f aimakefile, the default is 'aimakefile'"
     esac
@@ -43,4 +46,4 @@ fi
 
 shift $((OPTIND-1))
 
-make -f $aimake_home/main.mk LOCAL_PATH=`pwd` TIMESTAMP=$timestamp TARGET_PLATFORM=$target_platform AIMAKE_VERSION=$version AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile "$@"
+make -j $jobs -f $aimake_home/main.mk LOCAL_PATH=`pwd` TIMESTAMP=$timestamp TARGET_PLATFORM=$target_platform AIMAKE_VERSION=$version AIMAKE_HOME=$aimake_home AIMAKEFILE=$aimakefile "$@"

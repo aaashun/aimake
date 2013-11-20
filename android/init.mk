@@ -23,6 +23,8 @@ STRIP = $(TOOLCHAINS)/bin/arm-linux-androideabi-strip
 # -I$(ANDROID_NDK_HOME)/sources/android/cpufeatures
 
 ANDABI=armv6-vfp
+$(warning build for ANDABI: $(ANDABI))
+$(shell sleep 1)
 
 ifeq ($(ANDABI), armv5te)
     CFLAGS :=  -march=armv5te -marm -mfloat-abi=soft

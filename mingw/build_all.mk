@@ -57,7 +57,8 @@ $(SHARED_LIBRARY) : $(OBJECTS)
 	$(CXX) $^ $(LDFLAGS) $(LOCAL_LDFLAGS) -Wl,--kill-at -Wl,--output-def,$(LOCAL_MODULE).def -o $(LOCAL_MODULE).dll
 	$(STRIP) --strip-unneeded $@
 	sed -i 's/[^ \t]* = //g' $(LOCAL_MODULE).def
-	lib /machine:i386 /def:$(LOCAL_MODULE).def /name:$(LOCAL_DLLNAME) /out:$(LOCAL_MODULE).lib
+	if [[ $(MINGWABI) == "x86_64" ]]; then lib /machine:x64 /def:$(LOCAL_MODULE).def /name:$(LOCAL_DLLNAME) /out:$(LOCAL_MODULE).lib; fi
+	if [[ $(MINGWABI) == "i686" ]]; then lib /machine:x86 /def:$(LOCAL_MODULE).def /name:$(LOCAL_DLLNAME) /out:$(LOCAL_MODULE).lib; fi
 
 #
 # goal: clean
