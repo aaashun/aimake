@@ -1,11 +1,17 @@
-aimake is a mini building tool based on gnu make. it's easy to cross compile shared library or static library for ios and android. 
+aimake is a mini building tool based on gnu make. it's easy to cross compile shared library or static library for:
+    iOS - i386, armv7, armv7s, all code in a fat static library
+    darwin
+    android - arm5te, armv6-vfp, armv7a-vfpv3, armv7a-neon, mips, i686. specified by argument 'ANDABI'
+    linux - i686, x86_64
+    windows - i686, x86_64, specified by argument 'MINGWABI'
 
 it's green, you don't need to install it
 
 1. requirements:
     (1) gnu make, aimake was based on gnu make
-    (2) [optional] ios sdk, it's required if you need to build your project for ios 
+    (2) [optional] iOS sdk, it's required if you need to build your project for iOS 
     (3) [optional] android ndk, it's required if you need to build your project for android
+    (4) [optional] mingw-w64, it's required if you need to build your project for windows
 
 2. how to use aimake?
     (1) copy 'aimakefile' to your project folder
@@ -13,8 +19,8 @@ it's green, you don't need to install it
     (4) run 'aimake' (aimake is a soft link pointing to aimake.sh)
 
 3. how to support more target platforms
-    the sub-folder(ios, android) means supported target platform,  and the name of sub-folder is some as target platform's name.
-    Every sub-folder must contains the following files:
+    the sub-folder(iOS, android) means supported target platform,  and the name of sub-folder is some as target platform's name.
+    every sub-folder must contains the following files:
         init.mk                 -- initialize variables of compilation environment, e.g. CC, CXX, CFLAGS, CXXFLAGS
         build_executable.mk     -- specify that compile the project into executable
         build_static_library.mk -- specify that compile the project into static library
