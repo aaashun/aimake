@@ -16,29 +16,6 @@ OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(subst .cc,.o,$(subst .rc,.o,$(LOCAL_SR
 
 
 #
-# building targets
-#
-EXECUTABLE = $(LOCAL_MODULE)
-SHARED_LIBRARY  = $(LOCAL_MODULE).dll
-STATIC_LIBRARY  = $(LOCAL_MODULE).lib
-PACKAGE  = $(shell basename .t/$(LOCAL_MODULE))-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).zip
-
-#
-# explict rules
-#
-%.o : %.c
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -c $< -o $@
-
-%.o : %.cc
-	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
-
-%.o : %.cpp
-	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
-
-%.o : %.rc
-	$(WINDRES) -J rc -O coff -i $< -o $@
-
-#
 # goal: all
 #
 all: $(ALL)

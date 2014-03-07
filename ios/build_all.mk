@@ -17,65 +17,6 @@ OBJECTS_I386   = $(subst .c,.i386.o,   $(subst .cpp,.i386.o,   $(subst .cc,.i386
 
 
 #
-# build targets
-#
-EXECUTABLE        = $(LOCAL_MODULE)
-EXECUTABLE_ARMV7  = $(LOCAL_MODULE).armv7
-EXECUTABLE_ARMV7S = $(LOCAL_MODULE).armv7s
-EXECUTABLE_I386   = $(LOCAL_MODULE).i386
-
-STATIC_LIBRARY        = lib$(LOCAL_MODULE).a
-STATIC_LIBRARY_ARMV7  = lib$(LOCAL_MODULE).armv7.a
-STATIC_LIBRARY_ARMV7S = lib$(LOCAL_MODULE).armv7s.a
-STATIC_LIBRARY_I386   = lib$(LOCAL_MODULE).i386.a
-
-SHARED_LIBRARY        = lib$(LOCAL_MODULE).dylib
-SHARED_LIBRARY_ARMV7  = lib$(LOCAL_MODULE).armv7.dylib
-SHARED_LIBRARY_ARMV7S = lib$(LOCAL_MODULE).armv7s.dylib
-SHARED_LIBRARY_I386   = lib$(LOCAL_MODULE).i386.dylib
-
-PACKAGE  = $(LOCAL_MODULE)-$(TARGET_PLATFORM)-$(VERSION)-$(TIMESTAMP).tar.gz
-
-#
-# explict rules
-#
-%.armv7.o : %.c
-	$(CC_DEV) $(LOCAL_CFLAGS) $(CFLAGS_ARMV7) -c $< -o $@
-
-%.armv7s.o : %.c
-	$(CC_DEV) $(LOCAL_CFLAGS) $(CFLAGS_ARMV7S) -c $< -o $@
-
-%.i386.o  : %.c
-	$(CC_SIM) $(LOCAL_CFLAGS) $(CFLAGS_I386)  -c $< -o $@
-
-%.armv7.o : %.cc
-	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7) -c $< -o $@
-
-%.armv7s.o : %.cc
-	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7S) -c $< -o $@
-
-%.i386.o  : %.cc
-	$(CXX_SIM) $(LOCAL_CXXFLAGS) $(CXXFLAGS_I386)  -c $< -o $@
-
-%.armv7.o : %.cpp
-	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7) -c $< -o $@
-
-%.armv7s.o : %.cpp
-	$(CXX_DEV) $(LOCAL_CXXFLAGS) $(CXXFLAGS_ARMV7S) -c $< -o $@
-
-%.i386.o  : %.cpp
-	$(CXX_SIM) $(LOCAL_CXXFLAGS) $(CXXFLAGS_I386)  -c $< -o $@
-
-%.armv7.o : %.m
-	$(CC_DEV) -x objective-c -std=gnu99 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30100 -fobjc-abi-version=2 -fobjc-legacy-dispatch $(LOCAL_CFLAGS) $(CFLAGS_ARMV7)  -std=gnu99 -c $< -o $@
-
-%.armv7s.o : %.m
-	$(CC_DEV) -x objective-c -std=gnu99 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30100 -fobjc-abi-version=2 -fobjc-legacy-dispatch $(LOCAL_CFLAGS) $(CFLAGS_ARMV7S) -std=gnu99 -c $< -o $@
-
-%.i386.o  : %.m
-	$(CC_SIM) -x objective-c -std=gnu99 -D__IPHONE_OS_VERSION_MIN_REQUIRED=30100 -fobjc-abi-version=2 -fobjc-legacy-dispatch $(LOCAL_CFLAGS) $(CFLAGS_I386)   -std=gnu99 -c $< -o $@
-
-#
 # goal: all
 #
 all: $(ALL)

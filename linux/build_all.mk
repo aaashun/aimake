@@ -13,27 +13,6 @@ LOCAL_SRC_FILES  := $(filter-out $(LOCAL_SRC_FILES_EXCLUDE), $(LOCAL_SRC_FILES))
 OBJECTS = $(subst .c,.o,$(subst .cpp,.o,$(subst .cc,.o,$(LOCAL_SRC_FILES))))
 
 #
-# building targets
-#
-EXECUTABLE = $(LOCAL_MODULE)
-SHARED_LIBRARY  = lib$(LOCAL_MODULE).so
-STATIC_LIBRARY  = lib$(LOCAL_MODULE).a
-PACKAGE  = $(shell basename .t/$(LOCAL_MODULE))-$(TARGET_PLATFORM)-$(shell uname -m)-$(VERSION)-$(TIMESTAMP).tar.gz
-
-#
-# explict rules
-#
-%.o : %.c
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) -c $< -o $@
-
-%.o : %.cc
-	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
-
-%.o : %.cpp
-	$(CXX) $(LOCAL_CXXFLAGS) $(CXXFLAGS) -c $< -o $@
-
-
-#
 # goal: all
 #
 all: $(ALL)
