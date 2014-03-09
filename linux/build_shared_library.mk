@@ -3,4 +3,3 @@ CXXFLAGS := -fPIC $(CXXFLAGS)
 LDFLAGS := -shared $(LDFLAGS)
 
 ALL = $(SHARED_LIBRARY)
-include $(BUILD_ALL)
