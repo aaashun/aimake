@@ -8,7 +8,8 @@ $(warning build for ANDABI: $(ANDABI))
 $(shell sleep 1)
 
 ifeq ($(ANDABI), armv5te)
-    CFLAGS :=  -march=armv5te -marm -mfloat-abi=soft
+    #CFLAGS :=  -march=armv5te -marm -mfloat-abi=soft
+    CFLAGS :=  -march=armv5te -mthumb -mfloat-abi=soft
 else ifeq ($(ANDABI), armv6-vfp)
     CFLAGS := -march=armv6 -marm -mfloat-abi=softfp -mfpu=vfp
 else ifeq ($(ANDABI), armv7a-vfpv3)

@@ -46,13 +46,19 @@ ifeq ($(findstring package,$(MAKECMDGOALS)),package)
     endif
 endif
 
+LOCAL_PACKAGE_RESOURCES += $(ALL)
+ifneq ($(LOCAL_PACKAGE_RESOURCES_EXCLUDE),)
+    LOCAL_PACKAGE_RESOURCES := $(filter-out $(LOCAL_PACKAGE_RESOURCES_EXCLUDE), $(LOCAL_PACKAGE_RESOURCES))
+endif
+
 PACKAGE_TEMP_DIR = $(PACKAGE:.tar.gz=)
+
 package: $(PACKAGE)
-$(PACKAGE): $(ALL)
+$(PACKAGE): $(LOCAL_PACKAGE_RESOURCES) 
 	@[ -e $(PACKAGE_TEMP_DIR) ] && echo "$(PACKAGE_TEMP_DIR) already exist, please delete it manually" && exit;\
 	rm -rf $(PACKAGE_TEMP_DIR);\
 	rm -rf $@;
 	mkdir -p $(PACKAGE_TEMP_DIR);
-	cp -rf -L $(ALL) $(LOCAL_PACKAGE_RESOURCES) $(PACKAGE_TEMP_DIR);
+	cp -rf -L $(LOCAL_PACKAGE_RESOURCES) $(PACKAGE_TEMP_DIR);
 	tar --exclude .svn -h -czf $@ $(PACKAGE_TEMP_DIR);
 	rm -rf $(PACKAGE_TEMP_DIR);
