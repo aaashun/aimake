@@ -28,6 +28,10 @@ ifeq (arm, $(findstring arm, $(ANDABI)))
     TOOLCHAINS = $(ANDROID_NDK_HOME)/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86
     PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-8/arch-arm
     CXX_STL = $(ANDROID_NDK_HOME)/sources/cxx-stl/gnu-libstdc++
+
+    #TOOLCHAINS = $(ANDROID_NDK_HOME)/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
+    #PLATFORM = $(ANDROID_NDK_HOME)/platforms/android-19/arch-arm
+    #CXX_STL = $(ANDROID_NDK_HOME)/sources/cxx-stl/gnu-libstdc++/4.9
     
     CC  = $(TOOLCHAINS)/bin/arm-linux-androideabi-gcc
     LD  = $(TOOLCHAINS)/bin/arm-linux-androideabi-ld
